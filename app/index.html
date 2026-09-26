@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fence Stain Simulator</title>
+  <meta name="description" content="Upload a fence photo, renew the wood and preview stain colours instantly.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">Fence Stain Simulator <span class="tag">v3 prototype</span></div>
+    <div id="status" class="status" role="status" aria-live="polite">Upload a fence photo to start.</div>
+  </header>
+
+  <main class="layout">
+    <section class="stage-wrap">
+      <div id="drop" class="drop">
+        <p><strong>Drop a fence photo here</strong> or</p>
+        <label class="btn primary">Choose photo<input id="file" type="file" accept="image/*" hidden></label>
+        <p class="hint">JPG, PNG or WebP. Processed on your device.</p>
+      </div>
+      <canvas id="stage" class="stage" hidden aria-label="Fence preview"></canvas>
+      <div class="view-bar" id="viewBar" hidden>
+        <div class="seg" role="tablist" aria-label="View">
+          <button data-view="result" class="on" role="tab">Result</button>
+          <button data-view="original" role="tab">Original</button>
+          <button data-view="mask" role="tab">Mask</button>
+        </div>
+        <button id="compare" class="btn ghost" title="Hold to see the original">Hold to compare</button>
+      </div>
+      <div id="timings" class="timings"></div>
+    </section>
+
+    <aside class="panel">
+      <div class="step">
+        <h2><span>1</span> Photo</h2>
+        <label class="btn">Change photo<input id="file2" type="file" accept="image/*" hidden></label>
+      </div>
+
+      <div class="step">
+        <h2><span>2</span> Find the fence</h2>
+        <div class="row">
+          <button id="detect" class="btn primary" disabled>Detect fence</button>
+          <label class="btn" id="maskFileBtn">Load mask<input id="maskFile" type="file" accept="image/png,image/*" hidden></label>
+        </div>
+        <p class="hint">Fix mistakes with the brush (switches to Mask view).</p>
+        <div class="row">
+          <div class="seg" aria-label="Brush">
+            <button data-brush="off" class="on">Off</button>
+            <button data-brush="add">+ Add</button>
+            <button data-brush="erase">− Erase</button>
+          </div>
+        </div>
+        <label class="slider">Brush size <input id="brushSize" type="range" min="4" max="80" value="24"></label>
+      </div>
+
+      <div class="step">
+        <h2><span>3</span> Renew the wood</h2>
+        <label class="check"><input id="renewOn" type="checkbox" checked> Remove weathering, grey and stains</label>
+        <label class="slider">Clean strength <input id="clean" type="range" min="0" max="100" value="100"></label>
+        <label class="slider">Wood grain <input id="grain" type="range" min="40" max="150" value="100"></label>
+        <label class="slider">Keep sunlight &amp; shadow <input id="lighting" type="range" min="40" max="100" value="80"></label>
+        <button id="cleanOnly" class="btn" disabled>Show cleaned natural wood</button>
+      </div>
+
+      <div class="step">
+        <h2><span>4</span> Pick a stain</h2>
+        <div id="swatches"></div>
+      </div>
+
+      <div class="step">
+        <button id="download" class="btn primary wide" disabled>Download full-size image</button>
+      </div>
+    </aside>
+  </main>
+
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
