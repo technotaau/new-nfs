@@ -1,0 +1,16 @@
+node_modules/
+.DS_Store
+*.log
+# Never commit datasets or weights
+*.onnx
+*.pt
+*.pth
+*.safetensors
+*.ckpt
+data/
+datasets/
+outputs/
+test-results/
+playwright-report/
+.env
+.env.*
