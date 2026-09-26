@@ -82,6 +82,8 @@ Goal: show the client a smooth end-to-end flow **today**, with zero new ML.
 
 **Honest reading:** the exact colour lock does most of the work, because grey and green weathering is a colour defect and the lock replaces colour. The classical renew filter adds a measured **~10-30%** on top for dark weathering (mildew streaks, water runs), depending on the scene. That is useful but not "brand new" on severely damaged wood, which confirms Phase 2 (the learned renew model) is where the remaining quality has to come from. The synthetic scene is a unit-test proxy; real-photo evaluation on the golden set is the first task of Phase 1/2.
 
+**Real-photo check** (13 client/test photos, see [`EVAL_2026-09-26_real_photos.md`](EVAL_2026-09-26_real_photos.md)): the colour lock looks convincing on most photos; the classical renew helps on mildew but reads as "cleaned + stained", not "brand new"; **the old detector caused every visible failure** (1 fence missed, 5 photos with stain on trunks, AC units, tarps or sky). So Phase 1 goes first.
+
 ### Phase 1: Segmentation you can trust (weeks 2-4) · `models/seg-student/`
 1. Finish the ViT-L teacher run in `fsv`. Evaluate it on a **hand-verified** golden set (≥ 300 images) to separate label noise from model error.
 2. Relabel all ~33k images with teacher soft masks (plus the existing SAM-refined masks where available).
