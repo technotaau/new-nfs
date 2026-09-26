@@ -68,6 +68,20 @@ Goal: show the client a smooth end-to-end flow **today**, with zero new ML.
 - Exact color lock with swatches carried over from `fsv`.
 - **Acceptance:** color change < 150 ms on a 1.5 MP photo on a mid-range laptop; median ΔE ≤ 3 against the swatch (automated test); background pixels bit-identical outside the feathered mask edge.
 
+**Phase 0 measured results** (2026-09-26, `npm test` / `npm run test:e2e`, cloud container CPU):
+
+| Check | Result |
+|---|---|
+| Colour change, user-felt round trip (960x640, headless Chromium) | **80-130 ms** |
+| Colour change at 1.77 MP (Node) | ~70-110 ms |
+| Renew, once per photo, 1.77 MP (Node) | ~430-500 ms |
+| Median ΔE vs swatch, all 19 swatches | ≤ 3 (typically ~0.05) |
+| Background pixels changed outside the feathered edge | **0** |
+| Plank-gap depth kept after renew | 92% |
+| Mean ΔE vs "clean fence stained the same colour" (synthetic ground truth) | raw 22.0, lock only 4.58, **renew + lock 3.81** |
+
+**Honest reading:** the exact colour lock does most of the work, because grey and green weathering is a colour defect and the lock replaces colour. The classical renew filter adds a measured **~10-30%** on top for dark weathering (mildew streaks, water runs), depending on the scene. That is useful but not "brand new" on severely damaged wood, which confirms Phase 2 (the learned renew model) is where the remaining quality has to come from. The synthetic scene is a unit-test proxy; real-photo evaluation on the golden set is the first task of Phase 1/2.
+
 ### Phase 1: Segmentation you can trust (weeks 2-4) · `models/seg-student/`
 1. Finish the ViT-L teacher run in `fsv`. Evaluate it on a **hand-verified** golden set (≥ 300 images) to separate label noise from model error.
 2. Relabel all ~33k images with teacher soft masks (plus the existing SAM-refined masks where available).
